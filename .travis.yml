@@ -1,6 +1,12 @@
 language: node_js
-
+sudo: required
 services: docker
+
+env:
+  global:
+    - NAME=myprojectname
+    - CACHE_FOLDER=$HOME/docker-images
+    - CACHE_FILE=${CACHE_FOLDER}/${NAME}-${TRAVIS_COMMIT}.tgz
 
 before_install:
 - openssl aes-256-cbc -K $encrypted_46351ee82ac2_key -iv $encrypted_46351ee82ac2_iv -in .env.enc -out .env -d
@@ -12,6 +18,17 @@ jobs:
 
   - stage: build the Docker image
     install: npm run build
+    script:
+      - mkdir -p ${CACHE_FOLDER}
+      - docker save docker_backend | gzip -c > ${CACHE_FILE}
 
   - stage: Run unit and integration tests
-    script: npm test
+    script: 
+      - ls -la ${CACHE_FOLDER}
+      - if [[ -f ${CACHE_FILE} ]]; then docker load -i ${CACHE_FILE}; fi
+      - npm test
+
+cache:
+  bundler: true
+  directories:
+    - ${CACHE_FOLDER}  
