@@ -23,7 +23,7 @@ jobs:
       - nodejsscan -d routes && nodejsscan -d test
 
   - stage: build the Docker image for testing        
-    install: 
+    script: 
       - npm run build
       - mkdir -p ${CACHE_FOLDER}
       - docker save docker_backend | gzip -c > ${CACHE_FILE}
