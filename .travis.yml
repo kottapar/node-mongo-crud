@@ -3,11 +3,11 @@ services: docker
 
 env:
   global:
-    - NAME=myprojectname
+    - NAME=node-mongo
     - CACHE_FOLDER=$HOME/docker-images
     - CACHE_FILE=${CACHE_FOLDER}/${NAME}-${TRAVIS_COMMIT}.tgz
 
-before_install:
+before_script:
 - openssl aes-256-cbc -K $encrypted_46351ee82ac2_key -iv $encrypted_46351ee82ac2_iv -in .env.enc -out .env -d
 - export VERSION=$(curl --silent "https://api.github.com/repos/knqyf263/trivy/releases/latest" | grep '"tag_name":' | sed -E 's/.*"v([^"]+)".*/\1/')
 - wget https://github.com/knqyf263/trivy/releases/download/v${VERSION}/trivy_${VERSION}_Linux-64bit.tar.gz
@@ -16,27 +16,24 @@ before_install:
 jobs:
   include:
   - stage: Nodejsscan of code 
-    script: 
+    install: 
       - virtualenv venv && . ./venv/bin/activate 
       - pip install nodejsscan
       - nodejsscan -f index.js && nodejsscan -d models
       - nodejsscan -d routes && nodejsscan -d test
 
   - stage: build the Docker image for testing        
-    install: npm run build
-    script:
+    install: 
+      - npm run build
       - mkdir -p ${CACHE_FOLDER}
       - docker save docker_backend | gzip -c > ${CACHE_FILE}
 
-  - stage: Run unit and integration tests
+  - stage: Run unit, integration tests and scan the docker image
     script: 
       - ls -la ${CACHE_FOLDER}
       - if [[ -f ${CACHE_FILE} ]]; then docker load -i ${CACHE_FILE}; fi
       - npm test
-
-  - stage: Scan the Docker image
-    script:
-      - ./trivy --exit-code 1 --severity CRITICAL --quiet --auto-refresh docker_backend
+      - ./trivy --exit-code 1 --severity CRITICAL --quiet docker_backend
 
 cache:
   bundler: true
