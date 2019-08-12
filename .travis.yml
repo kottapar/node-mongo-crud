@@ -9,13 +9,21 @@ env:
 
 before_install:
 - openssl aes-256-cbc -K $encrypted_46351ee82ac2_key -iv $encrypted_46351ee82ac2_iv -in .env.enc -out .env -d
+- export VERSION=$(curl --silent "https://api.github.com/repos/knqyf263/trivy/releases/latest" | \
+  grep '"tag_name":' | sed -E 's/.*"v([^"]+)".*/\1/')
+- wget https://github.com/knqyf263/trivy/releases/download/v${VERSION}/trivy_${VERSION}_Linux-64bit.tar.gz
+- tar zxvf trivy_${VERSION}_Linux-64bit.tar.gz
 
 jobs:
   include:
   - stage: Nodejsscan of code
-    script: virtualenv venv && . ./venv/bin/activate && pip install nodejsscan && nodejsscan -d .
+    script: 
+      - virtualenv venv && . ./venv/bin/activate 
+      - pip install nodejsscan
+      - nodejsscan -f index.js && nodejsscan -d models
+      - nodejsscan -d routes && nodejsscan -d test
 
-  - stage: build the Docker image
+  - stage: build the Docker image for testing
     install: npm run build
     script:
       - mkdir -p ${CACHE_FOLDER}
@@ -26,6 +34,10 @@ jobs:
       - ls -la ${CACHE_FOLDER}
       - if [[ -f ${CACHE_FILE} ]]; then docker load -i ${CACHE_FILE}; fi
       - npm test
+
+  - stage: Scan the Docker image
+    script:
+      - ./trivy --exit-code 1 --severity CRITICAL --quiet --auto-refresh docker_backend
 
 cache:
   bundler: true
