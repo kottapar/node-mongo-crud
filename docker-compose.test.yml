@@ -2,18 +2,18 @@ version: '3'
 services:
   backend-test:
     build: 
-      context: ../
-      dockerfile: docker/Dockerfile.test
+      context: .
+      dockerfile: Dockerfile.test
       args:
         port: ${PORT}
     env_file:
-      - ../.env
+      - .env
     environment:
       WAIT_HOSTS: database-test:27017
   database-test:
     image: mongo:4.0
     env_file:
-      - ../.env
+      - .env
     volumes:
       - ".${MONGO_TEST_DATA_DIR}:${MONGO_TEST_DATA_DIR}"
     expose:

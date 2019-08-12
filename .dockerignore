@@ -7,4 +7,5 @@ README.md
 .git/
 example.env
 .travis.yml
-docker/
+docker*
+Docker*
