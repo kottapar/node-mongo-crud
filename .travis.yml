@@ -1,7 +1,20 @@
 services: docker
 
-install:
-  - npm run build
+env:
+  global:
+    - MONGO_INITDB_DATABASE=api
+    - MONGO_DATA_DIR=/data/db
+    - MONGO_TEST_DATA_DIR=/data/test_db
+    - MONGO_LOG_FILE=/var/log/mongodb/mongodb.log
+    - PORT=80
+      
+before_script:
+  - env > .env
 
-script:
-  - npm test
+jobs:
+  include:
+    - stage: build the Docker image           
+      install: npm run build
+
+    - stage: Run unit and integration tests
+      script: npm test
