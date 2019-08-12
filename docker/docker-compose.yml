@@ -7,7 +7,7 @@ services:
       args:
         port: ${PORT}
     env_file:
-      - .env
+      - ../.env
     restart: always
     ports:
       - "${PORT}:${PORT}"
@@ -16,7 +16,7 @@ services:
   database:
     image: mongo:4.0
     env_file:
-      - .env
+      - ../.env
     volumes:
       - ".${MONGO_DATA_DIR}:${MONGO_DATA_DIR}"
     expose:
