@@ -14,7 +14,7 @@ before_install:
 jobs:
   include:
   - stage: Nodejsscan of code
-    script: pip install nodejsscan && nodejsscan -d .
+    script: virtualenv venv && . ./venv/bin/activate && pip install nodejsscan && nodejsscan -d .
 
   - stage: build the Docker image
     install: npm run build
