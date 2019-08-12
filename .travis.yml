@@ -1,8 +1,7 @@
 services: docker
 
 before_install:
-- openssl aes-256-cbc -K $encrypted_46351ee82ac2_key -iv $encrypted_46351ee82ac2_iv 
-  -in .env.enc -out .env -d
+- openssl aes-256-cbc -K $encrypted_46351ee82ac2_key -iv $encrypted_46351ee82ac2_iv -in .env.enc -out .env -d
 
 jobs:
   include:
