@@ -1,20 +1,13 @@
 services: docker
 
-env:
-  global:
-    - MONGO_INITDB_DATABASE=api
-    - MONGO_DATA_DIR=/data/db
-    - MONGO_TEST_DATA_DIR=/data/test_db
-    - MONGO_LOG_FILE=/var/log/mongodb/mongodb.log
-    - PORT=80
-      
-before_script:
-  - env > .env
+before_install:
+- openssl aes-256-cbc -K $encrypted_46351ee82ac2_key -iv $encrypted_46351ee82ac2_iv 
+  -in .env.enc -out .env -d
 
 jobs:
   include:
-    - stage: build the Docker image           
-      install: npm run build
+  - stage: build the Docker image
+    install: npm run build
 
-    - stage: Run unit and integration tests
-      script: npm test
+  - stage: Run unit and integration tests
+    script: npm test
