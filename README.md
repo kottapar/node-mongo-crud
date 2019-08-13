@@ -10,7 +10,7 @@ The stages are listed below
 
 code scan using NodeJSScan
 --------------------------
-The open-source project [nodejssscan](https://github.com/ajinabraham/NodeJsScan) is used to perform a static security code scan.
+The open-source project [nodejssscan](https://github.com/ajinabraham/NodeJsScan) is used to perform a static security code scan of the js files in the project. 
 
 build the test docker image
 ---------------------------
