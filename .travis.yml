@@ -37,7 +37,7 @@ jobs:
   - stage: Push image to private docker registry
     after_success:
       - if [[ -f ${CACHE_FILE} ]]; then docker load -i ${CACHE_FILE}; fi
-      - echo "$DOCKER_PASS" | docker login -u "$DOCKER_USER" --password-stdin
+      - echo "$DOCKER_PASS" | docker login -u "$DOCKER_USER" --password-stdin docker.io
       - export REPO=kottapar/myrepo
       - export TAG=`if [ "$TRAVIS_BRANCH" == "master" ]; then echo "latest"; else echo $TRAVIS_BRANCH ; fi`
       - docker tag docker_backend:latest ${REPO}:${TAG}
