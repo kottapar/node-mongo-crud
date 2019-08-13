@@ -36,11 +36,11 @@ jobs:
 
   - stage: Push image to private docker registry
     after_success:
-      - docker login -u $DOCKER_USER -p $DOCKER_PASS
+      - docker login -u ${DOCKER_USER} -p ${DOCKER_PASS}
       - export REPO=kottapar/myrepo
       - export TAG=`if [ "$TRAVIS_BRANCH" == "master" ]; then echo "latest"; else echo $TRAVIS_BRANCH ; fi`
-      - docker tag docker_backend:latest $REPO:$TAG $REPO:$COMMIT
-      - docker push $REPO
+      - docker tag docker_backend:latest ${REPO}:${TAG} ${REPO}:${COMMIT}
+      - docker push ${REPO}
 
 cache:
   bundler: true
