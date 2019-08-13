@@ -1,5 +1,6 @@
 language: generic
 services: docker
+sudo: required
 
 env:
   global:
@@ -41,7 +42,7 @@ jobs:
       - export REPO=kottapar/myrepo
       - export TAG=`if [ "$TRAVIS_BRANCH" == "master" ]; then echo "latest"; else echo $TRAVIS_BRANCH ; fi`
       - docker tag docker_backend:latest ${REPO}:${TAG}
-      - docker tag docker_backend:latest ${REPO}:${COMMIT}
+      - docker tag docker_backend:latest ${REPO}:${TRAVIS_BUILD_ID}
       - docker push ${REPO}
 
 cache:
