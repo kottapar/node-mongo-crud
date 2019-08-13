@@ -40,7 +40,8 @@ jobs:
       - echo "$DOCKER_PASS" | docker login -u "$DOCKER_USER" --password-stdin
       - export REPO=kottapar/myrepo
       - export TAG=`if [ "$TRAVIS_BRANCH" == "master" ]; then echo "latest"; else echo $TRAVIS_BRANCH ; fi`
-      - docker tag docker_backend:latest ${REPO}:${TAG} ${REPO}:${COMMIT}
+      - docker tag docker_backend:latest ${REPO}:${TAG}
+      - docker tag docker_backend:latest ${REPO}:${COMMIT}
       - docker push ${REPO}
 
 cache:
