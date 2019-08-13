@@ -30,12 +30,22 @@ jobs:
 
   - stage: Run unit, integration tests and scan the docker image
     script: 
-      - ls -la ${CACHE_FOLDER}
       - if [[ -f ${CACHE_FILE} ]]; then docker load -i ${CACHE_FILE}; fi
       - npm test
       - ./trivy --exit-code 1 --severity CRITICAL --quiet docker_backend
 
+  - stage: Push image to private docker registry
+    after_success:
+      - docker login -e $DOCKER_EMAIL -u $DOCKER_USER -p $DOCKER_PASS
+      - export REPO=kottapar/myrepo
+      - export TAG=`if [ "$TRAVIS_BRANCH" == "master" ]; then echo "latest"; else echo $TRAVIS_BRANCH ; fi`
+      - docker build -f docker/Dockerfile.production -t $REPO:$COMMIT .
+      - docker tag $REPO:$COMMIT $REPO:$TAG
+      - docker tag $REPO:$COMMIT $REPO:travis-$TRAVIS_BUILD_NUMBER
+      - docker push $REPO
+
 cache:
   bundler: true
   directories:
-    - ${CACHE_FOLDER}  
+    - ${CACHE_FOLDER}
+
