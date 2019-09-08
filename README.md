@@ -3,13 +3,6 @@
 
 [![Build Status](https://travis-ci.org/kottapar/node-mongo-crud.svg?branch=master)](https://travis-ci.org/kottapar/node-mongo-crud)
 
-Your organizaton must provide a single pipeline to build the docker image(nodejs) of a web applicaton backed by a database. 
-
-* Prior to the build of an image Pipeline, must look for below items.
-	* Unit tests
-	* Security scan of the code base
-	* Once security scan completed image should be pushed to private docker repository.
-
 The pipeline for this scenario is built using TravisCI and is available [here](https://travis-ci.org/kottapar/node-mongo-crud)
 
 I've forked an existing project, made changes and created the pipeline as per our requirements.
