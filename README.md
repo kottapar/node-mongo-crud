@@ -39,10 +39,10 @@ REPOSITORY            TAG                 IMAGE ID            CREATED           
 docker_backend        latest              718886b536ea        48 seconds ago      77.1MB
 ```
 
-Run the test on the docker image
---------------------------------
+Run the unit tests on the docker image
+--------------------------------------
 
-If you'd like to view the tests manually run `docker-compose -f docker/docker-compose.test.yml up`. You should see an output similar to the one below:
+If you'd like to run the tests manually run `docker-compose -f docker/docker-compose.test.yml up`. You should see an output similar to the one below:
 
 ```
 root@rabuntu:~/ravi/node-mongo-crud# docker-compose -f docker/docker-compose.test.yml up
