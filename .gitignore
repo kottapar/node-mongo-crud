@@ -3,3 +3,4 @@ data/
 docker/data/
 input.txt
 *.log
+.env
