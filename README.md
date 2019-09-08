@@ -10,11 +10,13 @@ I've forked an existing project, made changes and created the pipeline as per ou
 VM Pre-requisites
 -----------------
 
-We would require a VM with Docker installed to get started. Run `git clone https://github.com/kottapar/node-mongo-crud.git` to clone this repo.
+We would require a VM with Docker installed to get started. 
+
+Run `git clone https://github.com/kottapar/node-mongo-crud.git` to clone this repo.
 
 As this is a project for demonstration, the example.env file is saved. Run `mv example.env .env` and edit the parameters if required.
 
-For the Travis pipeline in production we'll be encrypting the .env file using the Travis gem which can be installed using `gem install travis -v 1.8.10 --no-rdoc --no-ri`. More info [here](https://docs.travis-ci.com/user/encrypting-files/)
+For the Travis pipeline in production we've encrypted the .env file using the Travis gem which can be installed using `gem install travis -v 1.8.10 --no-rdoc --no-ri`. More info can be found [here](https://docs.travis-ci.com/user/encrypting-files/)
 
 Build the docker image
 ----------------------
