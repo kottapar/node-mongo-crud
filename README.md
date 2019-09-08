@@ -10,7 +10,20 @@ I've forked an existing project, made changes and created the pipeline as per ou
 VM Pre-requisites
 -----------------
 
-We would require a VM with Docker installed to get started. 
+We would require a VM with Docker installed to get started. This is created and tested on a `Ubuntu 18.04` VM.
+
+```
+root@rabuntu:~/node-mongo-crud# lsb_release -a
+No LSB modules are available.
+Distributor ID: Ubuntu
+Description:    Ubuntu 18.04.3 LTS
+Release:        18.04
+Codename:       bionic
+
+root@rabuntu:~/node-mongo-crud# docker --version
+Docker version 19.03.1, build 74b1e89
+
+```
 
 Run `git clone https://github.com/kottapar/node-mongo-crud.git` to clone this repo.
 
